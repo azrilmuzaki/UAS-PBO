@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pendaftaran ORMAWA</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Form Pendaftaran ORMAWA</h1>
+        
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="firstName">Nama Depan *</label>
+                <input type="text" id="firstName" name="firstName" required>
+                <span class="error-message" id="firstNameError"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="lastName">Nama Belakang *</label>
+                <input type="text" id="lastName" name="lastName" required>
+                <span class="error-message" id="lastNameError"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="nim">NIM *</label>
+                <input type="text" id="nim" name="nim" required>
+                <span class="error-message" id="nimError"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error-message" id="emailError"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="faculty">Fakultas *</label>
+                <select id="faculty" name="faculty" required>
+                    <option value="">Pilih Fakultas</option>
+                    <option value="tarbiah">Fakultas Tarbiah</option>
+                    <option value="syariah_adab">Fakultas Syariah & Adab</option>
+                    <option value="sains_teknologi">Fakultas Sains & Teknologi</option>
+                    <option value="keguruan">Fakultas Keguruan & Ilmu Pendidikan</option>
+                    <option value="kesehatan">Fakultas Ilmu Kesehatan</option>
+                </select>
+                <span class="error-message" id="facultyError"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="program">Program Studi *</label>
+                <select id="program" name="program" required disabled>
+                    <option value="">Pilih Fakultas terlebih dahulu</option>
+                </select>
+                <span class="error-message" id="programError"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="address">Alamat *</label>
+                <textarea id="address" name="address" rows="4" required></textarea>
+                <span class="error-message" id="addressError"></span>
+            </div>
+            
+            <button type="submit" class="submit-btn">Daftar</button>
+        </form>
+        
+        <div id="successMessage" class="success-message"></div>
+    </div>
+    
+    <script src="js/data/facultiesData.js"></script>
+    <script src="js/classes/FormField.js"></script>
+    <script src="js/classes/User.js"></script>
+    <script src="js/classes/Student.js"></script>
+    <script src="js/classes/Faculty.js"></script>
+    <script src="js/classes/FormValidator.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
