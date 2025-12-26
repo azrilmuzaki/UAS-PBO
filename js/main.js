@@ -1,3 +1,6 @@
+// Import Firebase functions
+import { db, collection, addDoc } from './firebase-config.js';
+
 // Subclass dari FormField untuk tipe field yang berbeda (Inheritance & Polimorfisme)
 class TextField extends FormField {
     constructor(id, name, required = true, minLength = 2, maxLength = 50) {
@@ -74,6 +77,30 @@ class SelectField extends FormField {
     }
 }
 
+// Fungsi untuk menyimpan data ke Firestore
+async function saveToFirestore(studentData) {
+    try {
+        const docRef = await addDoc(collection(db, "mahasiswa"), {
+            firstName: studentData.firstName,
+            lastName: studentData.lastName,
+            fullName: studentData.name,
+            nim: studentData.nim,
+            email: studentData.email,
+            faculty: studentData.faculty,
+            program: studentData.program,
+            address: studentData.address,
+            registrationDate: studentData.registrationDate,
+            timestamp: new Date()
+        });
+        console.log("Document written with ID: ", docRef.id);
+        return true;
+    } catch (e) {
+        console.error("Error adding document: ", e);
+        alert("Gagal menyimpan data ke database: " + e.message);
+        return false;
+    }
+}
+
 // Inisialisasi aplikasi
 document.addEventListener('DOMContentLoaded', function() {
     // Inisialisasi validator
@@ -142,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Event listener untuk form submit
-    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    document.getElementById('registrationForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
         // Update semua field values
@@ -167,15 +194,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 validator._fields.get('address').value
             );
             
-            // Tampilkan success message
-            showSuccessMessage(student);
+            const studentData = student.getStudentData();
             
-            // Reset form
-            this.reset();
-            programSelect.disabled = true;
-            programSelect.innerHTML = '<option value="">Pilih Fakultas terlebih dahulu</option>';
-            validator.clearAllErrors();
-            clearAllErrorDisplays();
+            // Simpan ke Firestore
+            const saved = await saveToFirestore({
+                ...studentData,
+                firstName: validator._fields.get('firstName').value,
+                lastName: validator._fields.get('lastName').value,
+                address: validator._fields.get('address').value
+            });
+            
+            if (saved) {
+                // Tampilkan success message
+                showSuccessMessage(student);
+                
+                // Reset form
+                this.reset();
+                programSelect.disabled = true;
+                programSelect.innerHTML = '<option value="">Pilih Fakultas terlebih dahulu</option>';
+                validator.clearAllErrors();
+                clearAllErrorDisplays();
+            }
         } else {
             // Tampilkan error messages
             displayErrors(validator.getAllErrors());
@@ -216,13 +255,14 @@ document.addEventListener('DOMContentLoaded', function() {
             <p><strong>Fakultas:</strong> ${studentInfo.faculty}</p>
             <p><strong>Program Studi:</strong> ${studentInfo.program}</p>
             <p><strong>Tanggal Pendaftaran:</strong> ${studentInfo.registrationDate}</p>
+            <p style="margin-top: 15px;"><a href="daftar-mahasiswa.html" style="color: #000000ff; text-decoration: underline;">Lihat Daftar Mahasiswa</a></p>
         `;
         
         successDiv.style.display = 'block';
         
-        // Auto hide setelah 10 detik
-        setTimeout(() => {
-            successDiv.style.display = 'none';
-        }, 10000);
+        // Auto hide setelah 15 detik
+        // setTimeout(() => {
+        //     successDiv.style.display = 'none';
+        // }, 15000);
     }
 });
