@@ -255,14 +255,13 @@ document.addEventListener('DOMContentLoaded', function() {
             <p><strong>Fakultas:</strong> ${studentInfo.faculty}</p>
             <p><strong>Program Studi:</strong> ${studentInfo.program}</p>
             <p><strong>Tanggal Pendaftaran:</strong> ${studentInfo.registrationDate}</p>
-            <p style="margin-top: 15px;"><a href="daftar-mahasiswa.html" style="color: #000000ff; text-decoration: underline;">Lihat Daftar Mahasiswa</a></p>
         `;
         
         successDiv.style.display = 'block';
         
         // Auto hide setelah 15 detik
-        // setTimeout(() => {
-        //     successDiv.style.display = 'none';
-        // }, 15000);
+        setTimeout(() => {
+            successDiv.style.display = 'none';
+        }, 15000);
     }
 });

@@ -43,8 +43,8 @@ async function loadMahasiswaData() {
         }
     } catch (error) {
         console.error("Error loading data: ", error);
-        loadingMessage.textContent = 'Gagal memuat data: ' + error.message;
-        loadingMessage.style.color = 'red';
+        loadingMessage.innerHTML = '❌ Gagal memuat data: ' + error.message;
+        loadingMessage.style.color = '#e74c3c';
     }
 }
 
@@ -59,9 +59,10 @@ function createTableRow(index, docId, data) {
         <td>${data.email || '-'}</td>
         <td>${data.faculty || '-'}</td>
         <td>${data.program || '-'}</td>
+        <td>${data.address || '-'}</td>
         <td>${data.registrationDate || '-'}</td>
         <td>
-            <button class="btn btn-danger" onclick="deleteData('${docId}')">Hapus</button>
+            <button class="btn-danger" onclick="deleteData('${docId}')">Hapus</button>
         </td>
     `;
     
@@ -70,15 +71,15 @@ function createTableRow(index, docId, data) {
 
 // Fungsi untuk menghapus data
 async function deleteData(docId) {
-    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+    if (confirm('Apakah Anda yakin ingin menghapus data mahasiswa ini?')) {
         try {
             await deleteDoc(doc(db, "mahasiswa", docId));
-            alert('Data berhasil dihapus!');
+            alert('✅ Data berhasil dihapus!');
             // Reload data
             loadMahasiswaData();
         } catch (error) {
             console.error("Error deleting document: ", error);
-            alert('Gagal menghapus data: ' + error.message);
+            alert('❌ Gagal menghapus data: ' + error.message);
         }
     }
 }
